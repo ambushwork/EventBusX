@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -10,6 +12,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: 'com.netatmo.ylu.eventbus.apt', className: 'EventBusIndex']
+            }
+        }
+
     }
     buildTypes {
         release {
@@ -17,6 +25,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceCompatibility = "1.7"
+    targetCompatibility = "1.7"
 }
 
 dependencies {
@@ -29,4 +39,13 @@ dependencies {
     implementation project(':core')
     implementation project(':eventbus_annotation')
     implementation project(':eventbus_compiler')
+    compile "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(':core')
+    implementation project(':eventbus_annotation')
+    annotationProcessor project(':eventbus_compiler')
+
+}
+repositories {
+    mavenCentral()
 }
